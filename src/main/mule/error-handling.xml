@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	<error-handler name="global-error-handler">
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d01b1c61-5771-4dd1-9939-62b5f6fa05a7" type="ANY">
+			<flow-ref doc:name="error-handling-process-error-flow" doc:id="04bb5bb2-d2bd-4178-aa51-25c2ce8ee750" name="error-handling-process-error-flow"/>
+		</on-error-continue>
+		
+		
+		
+
+</error-handler>
+	</mule>

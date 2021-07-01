@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:error-handler-plugin="http://www.mulesoft.org/schema/mule/error-handler-plugin" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd  http://www.mulesoft.org/schema/mule/error-handler-plugin http://www.mulesoft.org/schema/mule/error-handler-plugin/current/mule-error-handler-plugin.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+    <http:listener-config name="api-template-httpListenerConfig" basePath="/api">
+        <http:listener-connection host="0.0.0.0" port="${http.private.port}" />
+    </http:listener-config>
+    <apikit:config name="api-template-config" api="api/api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="api-template-main">
+        <http:listener config-ref="api-template-httpListenerConfig" path="/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <flow-ref doc:name="log-request-received" doc:id="ac3ea12d-1700-4e8f-ba92-b4ed0a98ef6b" name="log-request-received" />
+        <apikit:router config-ref="api-template-config" />
+        <flow-ref doc:name="log-response-returned" doc:id="41d83a95-4134-433f-948e-04556b827783" name="log-response-returned" />
+        <error-handler>
+            <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0d38ac0b-646b-4fef-a0a3-2b5464f7cec5">
+                <flow-ref doc:name="error-handling-process-error-flow" doc:id="8a537513-1f8c-4d47-bf5d-1e8a1f26aee2" name="error-handling-process-error-flow" />
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="api-template-console">
+        <http:listener config-ref="api-template-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="api-template-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="post:\customer:application\json:api-template-config">
+        <flow-ref doc:name="log-resource-flow-entry" doc:id="19e5ee54-c85b-4581-b6d0-d1faf5cf91b5" name="log-resource-flow-entry" />
+        <flow-ref doc:name="implementationFlow" doc:id="c934433c-6b84-4410-bc21-d137191cac35" name="workday-integration-flow" />
+        <flow-ref doc:name="log-resource-flow-complete" doc:id="185c149a-b3bf-4aed-abdd-e63b5815ea79" name="log-resource-flow-complete" />
+    </flow>
+    <flow name="get:\customer\response:api-template-config">
+        <flow-ref doc:name="log-resource-flow-entry" doc:id="b61fb565-14cb-4b05-9fb6-aa457ff8b9c1" name="log-resource-flow-entry" />
+        <flow-ref doc:name="implementationFlow" doc:id="b18f3845-b91c-4362-96f6-8ab91cd0d5d5" name="consume-integration-flow" />
+        <flow-ref doc:name="log-resource-flow-complete" doc:id="e8ba0692-4d31-415d-9aa0-dff6e9fda1ee" name="log-resource-flow-complete" />
+    </flow>
+	<flow name="post:\customer\response:api-template-config">
+        <flow-ref doc:name="log-resource-flow-entry" doc:id="e50298ef-e97e-4e6c-a4f9-3c58930766b5" name="log-resource-flow-entry" />
+        <flow-ref doc:name="implementationFlow" doc:id="6fc6a92e-7a23-4228-adaf-acd22ce13afe" name="publish-integration-flow" />
+        <flow-ref doc:name="log-resource-flow-complete" doc:id="8bb22b50-acbe-4b65-beda-d4c2d2f6d56a" name="log-resource-flow-complete" />
+    </flow>
+</mule>

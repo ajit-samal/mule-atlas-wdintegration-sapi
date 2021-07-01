@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="new-test-suite.xml" />
+	<munit:test name="new-test-suite-implementationFlowTest" doc:id="ac0424b3-47e4-4de1-b1fa-2b548f8ac7ad" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="9347dedc-4df8-4be7-b3fe-ea672b69294d" />
+			<flow-ref doc:name="Flow-ref to implementationFlow" doc:id="50dce961-b252-4dd5-afce-d72790245b4d" name="workday-integration-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="d25b97ab-1615-4c68-9f1d-e7fdebe8dd78" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<!-- <munit:test name="new-test-suite-api-template-mainTest" doc:id="363b5406-a68b-4605-8e0d-41257b18ce38" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a97e87ee-cc97-468e-8afb-bf63eeab6752" processor="http:listener">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="api-template-httpListenerConfig" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="/api/${api.majorVersion}/*" attributeName="path" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value='{
+"message":"Test message"
+}' />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="2a3b8f7b-668a-49b3-99b6-dcea2b4cf505" />
+			<flow-ref doc:name="Flow-ref to api-template-main" doc:id="0c928dde-4d7a-4a9c-87f9-f14ae55bc3ab" name="api-template-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="449c14ce-59c6-4714-87ec-f48089b513f9" message="Payload is null" expression="#[payload]" is="#[MunitTools::notNullValue()]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="new-test-suite-api-template-consoleTest" doc:id="9501ad5e-57cd-4f67-9291-2c1971741c18" description="Test">
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="c3f6b783-f334-482d-8d16-4dad2d3a80a7" />
+			<flow-ref doc:name="Flow-ref to api-template-console" doc:id="f67090e6-379a-4efc-85a7-21968f0ba750" name="api-template-console"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="new-test-suite-get:\template-test:api-template-configTest" doc:id="b4d0c49a-1996-448c-b129-4f22f3935d28" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\template-test:api-template-config" doc:id="22292d55-b825-4d1c-8243-8df2707c6180" name="get:\template-test:api-template-config"/>
+		</munit:execution>
+	</munit:test>
+ -->
+
+</mule>

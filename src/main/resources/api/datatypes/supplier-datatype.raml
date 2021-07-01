@@ -1,0 +1,208 @@
+#%RAML 1.0 DataType
+properties:
+
+  #################
+  # Supplier Header
+  #################
+
+  supplierId: 
+    type: string
+    required: true
+    displayName: "Supplier ID"
+    example: "123456789"
+    description: "eKomerico Supplier ID"
+  supplierName: 
+    type: string
+    required: true
+    example: "Nombre o Razón Social del Proveedor."
+    displayName: "Supplier Name"
+    description: "Nombre o Razón Social del Proveedor"
+  taxId:
+    type: string
+    required: true
+    displayName: "Tax ID (RFC)"
+    example: "Sin espacios y guiones."
+    description: "RFC del Proveedor, este es el campo enlace con Ekomercio."
+  taxIdType:
+    type: string
+    required: true
+    example: "Test Tax"
+    description: "Tax Id Type" 
+  paymentTerm:
+    type: string 
+    required: true
+    example: "Net_30"
+    enum: [DueNow, Net_15, Net_30, Net_45,Net_90]
+    displayName: "Payment Term"
+    description: "Valor Fijo Net_30"
+  paymentMethod:
+    type: string
+    required: true
+    enum: [WIRE_ETF, Manual]
+    displayName: "Payment Method"
+    description: "Valor Fijo (Wire_EFT)"
+    example: "WIRE_ETF"
+  baseCurrencyCode:
+    type: string
+    required: true
+    displayName: "Base Currency Code"
+    description: "Catálogo códigos de la Moneda (MXN, USD)"
+    example: "MXN"
+  supplierGroup:
+    type: array
+    required: false
+    displayName: "Supplier Group"
+    description: "Supplier Group"
+    example: ["Market_Mexico_LATAM"]
+  supplierCategory:
+    type: string
+    required: false
+    description: "Supplier Category"
+    example: "Test"
+  paymentType:
+    type: string
+    enum: ["AP Outsource","AP","Wire","Foreign_Wire","Manual","ACH_(CCD)"]
+    required: false
+    description: "Payment Type"
+    example: "ACH_(CCD)"
+  acceptedpaymentTypes:
+    type: string
+    enum: ["AP Outsource","AP","Wire","Foreign_Wire","Manual","ACH_(CCD)"]
+    required: false
+    description: "Accepted Payment Types"
+    example: "ACH_(CCD)"
+      
+      
+  #################
+  # Bank Account
+  #################
+  bank:
+    type: object
+    properties: 
+      sequeneceNumber: 
+        type: integer
+        required: true
+        displayName: "Bank Sequence Number"
+        example: 1
+        description: "Se permite agregar múltiples bancos, si el número de secuencia ya existe será una actualización."
+      countryCode: 
+        type: string
+        required: true
+        displayName: "Bank Country Code"
+        example: "MX"
+        description: "Catálogo de códigos de País (MX)"
+      idCode: 
+        type: string
+        required: false
+        displayName: "Bank ID Code"
+        example: ""
+        description: "Campo en Blanco"
+      accountNumber: 
+        type: string
+        required: true
+        displayName: "Account Number"
+        example: "123456789"
+        description: "Número de Cuenta Bancaria(CLABE)"
+      nameOnAccount: 
+        type: string
+        required: true
+        displayName: "Name on Bank Account"
+        example: "Todo en mayúsculas"
+        description: "Nombre en la cuenta Bancaria"
+      bankName:
+        type: string
+        required: true
+        displayName: "Name on Bank Account"
+        example: "Todo en mayúsculas"
+        description: "Nombre del Banco"
+      accountType:
+        type: string
+        required: true
+        enum: [DDA, SA]
+        displayName: "Account Type"
+        example: "DDA"
+        description: "Tipo de cuenta bancaria : Cheques (DDA) o Ahorro (SA)"
+      bankCurrencyCode:
+        type: string
+        required: true
+        displayName: "Bank Currency"
+        example: "MXN"
+        description: "Catalogo códigos de la Moneda (MXN, USD)"
+  
+
+  #################
+  # Contact Information
+  #################
+  contact:
+    type: object
+    required: true
+    properties:
+      email: 
+        type: object
+        required: true
+        properties: 
+          sequeneceNumber:
+            type: string
+            required: true
+            displayName: "Email Sequence Number"
+            example: "1"
+            description: "Si el número de secuencia ya existe es una actualización."
+          emailAddress:
+            type: string
+            pattern: ^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$
+            required: true
+            displayName: "Email address"
+            example: "example@example.com"
+            description: "Supplier Email Address"
+      address: 
+        type: object
+        required: true
+        properties: 
+          sequeneceNumber:
+            type: string
+            required: true
+            displayName: "Address Sequence Number"
+            example: "1"
+            description: "Si el número de secuencia ya existe es una actualización."
+          countryCode:
+            type: string
+            required: true
+            displayName: "Country Code"
+            example: "MX"
+            description: "Country ISO Code"
+          state:
+            type: string
+            required: true
+            displayName: "State"
+            example: "Jalisco"
+            description: "State"
+          city:
+            type: string
+            required: true
+            displayName: "City"
+            example: "CDMX"
+            description: "Texto Libre por default CDMX"
+          postalCode:
+            type: string
+            required: true
+            displayName: "Postal Code"
+            example: "12345"
+            description: "Código Postal 5 números"
+          neighborhood:
+             type: string
+             required: true
+             displayName: "Neighborhood"
+             example: "Delegación"
+             description: "Neighborhood"
+          addessLine1:
+             type: string
+             required: true
+             displayName: "Address Line 1"
+             example: "Calle más número interior y Número Exterior"
+             description: "Address Line 1"
+          addessLine2:
+             type: string
+             required: false
+             displayName: "Address Line 2"
+             example: ""
+             description: "Address Line 2"

@@ -1,0 +1,35 @@
+#%RAML 1.0
+title: atlas-workday-integration-sapi
+
+uses: 
+  dataLib: datatypes/data-library.raml
+
+traits: 
+ header: !include datatypes/headers.raml
+ client-id-required: !include datatypes/clientIdenforcement.raml
+
+
+/customer:
+  post:
+    body:
+      application/json:
+        example:
+          
+    responses:
+        200:
+          body:
+            application/json:
+              example: 
+            
+  /response:
+    post:
+      responses:
+          200:
+            body:
+              application/json:
+    get:
+      responses:
+        200:
+          body:
+            application/xml:
+              example: !include examples/customer-response.raml

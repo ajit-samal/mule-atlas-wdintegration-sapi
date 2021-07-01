@@ -1,0 +1,23 @@
+api:
+  autodiscovery:
+    id: "16520548"
+  
+json.logger:
+  disabledFields: ""
+  
+amq:
+  clientId: "150a6fedeebc4981b368779931f96f41"
+  clientSecret: "75b52E29185d44468039E0D09f52891c"
+  
+http:
+  port: "8081"
+  private:
+    port: "8091"
+    
+requester:
+  host: "wd5-impl-e2.workday.com"
+  port: ""
+  userName: "ISU_INT999_Fanelli_Test_Integration@condenast5"
+  password: "Fanelli@12345"
+  url: "https://wd5-impl-e2.workday.com/ccx/cc-cloud-repo/launches/INT999_Fanelli_Test_Integration/INT999_Fanelli_Test_Integration/StartHere"
+  

@@ -1,0 +1,10 @@
+kind: pipeline
+name: default
+
+steps:
+- name: develop
+  image: maven:3.6.3-openjdk-11
+  commands:
+  - mvn clean deploy -s local-settings.xml -DskipTests -DmuleDeploy -Ddeploy.url=https://anypoint.mulesoft.com -Ddeploy.username=cndeploy -Dmule.env=prototype -Daws.region=eu-west-2 -Dobject.store.v2=true -Dworker.count=1 -Dworker.type=MICRO -Denvironment=prototype -Dmule.encryption.key=111111111111111111111111111 -Denv.anypoint.client.id=1c09527201f641e0a7c009cd1dab26cf  -Denv.anypoint.client.secret=4DC64B55dF564548b818D965CCd32143
+
+

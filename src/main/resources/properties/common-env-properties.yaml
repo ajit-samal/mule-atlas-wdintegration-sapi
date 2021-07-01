@@ -1,0 +1,9 @@
+api:
+  name:         "${api.artifactId}" 
+  groupId:      "${api.groupId}" 
+  artifactId:   "${api.artifactId}" 
+  version:      "${api.version}"
+  majorVersion: "${api.major.version}"
+  
+http:
+  port: "8081"

@@ -1,0 +1,5 @@
+{
+  "secureProperties": [],
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE"
+}

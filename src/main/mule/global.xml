@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule
+xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq"
+		xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core
+	 					http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+						http://www.mulesoft.org/schema/mule/json-logger 
+						http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd">
+
+
+	<configuration-properties
+		doc:name="Configuration properties"
+		doc:id="7a0f37cc-12cf-4a0a-913a-e5844613acf0"
+		file="properties/common-env-properties.yaml" />
+	<configuration-properties
+		doc:name="Configuration properties"
+		doc:id="3392cf0e-3cfa-41db-8232-02f9a7adc046"
+		file="properties/${mule.env}-properties.yaml" />
+	<secure-properties:config
+		name="Secure_Properties_Config" doc:name="Secure Properties Config"
+		doc:id="3df3b10f-5f2c-4b75-80e5-4414d8517959"
+		file="properties/${mule.env}-secure-properties.yaml"
+		key="${mule.encryption.key}" />
+	<!-- <api-gateway:autodiscovery
+		apiId="${api.autodiscovery.id}" ignoreBasePath="true"
+		doc:name="API Autodiscovery"
+		doc:id="b0e4badd-8442-4f87-8454-cdcab68eb3d9"
+		flowRef="api-template-main" /> -->
+	<configuration doc:name="Configuration"
+		doc:id="760639d9-e6bf-4bff-aa98-35df19291a79"
+		defaultErrorHandler-ref="global-error-handler" />
+	<anypoint-mq:config name="Anypoint_MQ_Config" doc:name="Anypoint MQ Config" doc:id="5e25e256-7124-4471-b270-9ffe8aa666ae" >
+		<anypoint-mq:connection clientId="${amq.clientId}" clientSecret="${amq.clientSecret}" />
+	</anypoint-mq:config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="f185b35d-c7bb-475a-b165-b2a9f6282fae" >
+		<http:request-connection host="${requester.host}" protocol="HTTPS" port="${requester.port}">
+			<http:authentication >
+				<http:basic-authentication username="${requester.userName}" password="${requester.password}"/>
+			</http:authentication>
+		</http:request-connection>
+	</http:request-config>
+	<import doc:name="Import"
+		doc:id="8a82b459-4a3f-4a1a-8b6f-8c8acce2bff9"
+		file="common-services-error-handling.xml" />
+	<import doc:name="Import"
+		doc:id="3ec2d040-051a-4f93-8dcb-1616d440d71f"
+		file="common-services-global.xml" />
+	<import doc:name="Import"
+		doc:id="188aaff1-0bc8-4a50-9754-6c7193c50663"
+		file="common-services-logging.xml" />
+</mule>

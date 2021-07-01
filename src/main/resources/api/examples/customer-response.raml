@@ -1,0 +1,89 @@
+{
+    "Status": "Partial Success",
+    "ReferenceIdAssignments": [
+        {
+            "Type": "MarketAccount",
+            "Status": "success",
+            "ReferenceIds": [
+                {
+                    "System": "BM",
+                    "Id": "MA-67123454"
+                },
+                {
+                    "System": "WD",
+                    "Id": "C-712606"
+                }
+            ]
+        },
+        {
+            "Type": "Address",
+            "Status": "success",
+            "ReferenceIds": [
+                {
+                    "System": "BM",
+                    "Id": [
+                        "UAD-00000022"
+                    ]
+                },
+                {
+                    "System": "WD",
+                    "Id": [
+                        "UAD-00000022"
+                    ]
+                }
+            ]
+        },
+        {
+            "Type": "Address",
+            "Status": "success",
+            "ReferenceIds": [
+                {
+                    "System": "BM",
+                    "Id": [
+                        "UAD-00000024"
+                    ]
+                },
+                {
+                    "System": "WD",
+                    "Id": [
+                        "UAD-00000024"
+                    ]
+                }
+            ]
+        },
+        {
+            "Type": "BusinessEntityContact",
+            "Status": "Failure",
+            "ReferenceIds": [
+                {
+                    "System": "BM",
+                    "Id": "CON-12345678"
+                },
+                {
+                    "System": "WD",
+                    "Id": "CON-12345678"
+                }
+            ],
+            "Error": [
+                "Invalid ID value.  '' is not a valid ID value for type = 'ISO_3166-1_Alpha-3_Code'"
+            ]
+        },
+        {
+            "Type": "BusinessConnectionMap",
+            "Status": "Failure",
+            "ReferenceIds": [
+                {
+                    "System": "BM",
+                    "Id": "MA-67123454"
+                },
+                {
+                    "System": "WD",
+                    "Id": "C-712606"
+                }
+            ],
+            "Error": [
+                "Add a customer only once to the Connection Map."
+            ]
+        }
+    ]
+}

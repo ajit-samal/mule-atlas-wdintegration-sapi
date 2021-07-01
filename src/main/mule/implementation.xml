@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:anypoint-mq="http://www.mulesoft.org/schema/mule/anypoint-mq"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/anypoint-mq http://www.mulesoft.org/schema/mule/anypoint-mq/current/mule-anypoint-mq.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="consume-integration-flow" doc:id="1f501819-be52-4401-af44-cbd463521f67" >
+		<logger level="INFO" doc:name="Logger" doc:id="0f669f4c-944b-4f62-8dd4-a8a32da31132" message="Request received from MQ"/>
+		<anypoint-mq:consume doc:name="Consume" doc:id="c2a63987-1250-4f8e-9996-0b8f35e9d4a5" config-ref="Anypoint_MQ_Config" destination="Queue-WdToBm-WorkdayIntegration"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c206ee2f-5b13-4ed6-97cc-190a18903504" message="#[payload]"/>
+		<error-handler ref="global-error-handler" />
+	</flow>
+	<flow name="publish-integration-flow" doc:id="f0c15eb7-775b-4d4e-bfd2-7d61403a7b20" >
+		<logger level="DEBUG" doc:name="Logger" doc:id="cbd87002-ce1d-4ec8-bff2-880225c12bf0" message="Request received from Workday"/>
+		<anypoint-mq:publish doc:name="Publish" doc:id="94cc36a2-e67b-4e50-843b-6e8d76e3928a" config-ref="Anypoint_MQ_Config" destination="Queue-WdToBm-WorkdayIntegration" messageId="#[attributes.headers.responseId]">
+		</anypoint-mq:publish>
+		<logger level="INFO" doc:name="Logger" doc:id="ae240d48-5781-4b44-be04-a65690185e0c" />
+		<error-handler ref="global-error-handler" />
+	</flow>
+	<flow name="workday-integration-flow" doc:id="9413162a-a92b-4082-a8b9-951bd990f76d" >
+		<logger level="INFO" doc:name="Logger" doc:id="cb299177-85bd-4b0e-89be-a4938aab689b" message='Before Requester : #[payload]'/>
+		<http:request method="POST" doc:name="Request" doc:id="b9bb52fe-99a8-4e5b-944a-9dcf76b47ec7" url="${requester.url}" config-ref="HTTP_Request_configuration"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7a4bfe2c-370f-414f-ac17-0f7de8ece052" message='After Requester : #[payload]'/>
+		<error-handler ref="global-error-handler" />
+	</flow>
+</mule>

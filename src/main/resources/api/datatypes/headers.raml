@@ -1,0 +1,22 @@
+#%RAML 1.0 Trait
+displayName: Audit Header
+usage: Audit log header for end-to-end traceability of the operation/transaction.
+
+
+headers:
+      x-correlation-id:
+        type: string
+        required: true
+        maxLength: 50
+        example: 421cb368-066b-11e1-9647-c5be7398b24e
+      x-market:
+        type: string
+        required: true
+        enum: ["LATAM","US","UK","SPAIN","ALL"]
+        example: "ALL"
+      x-source-system:
+        type: string
+        required: true
+        example: System A
+  
+
